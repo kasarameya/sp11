@@ -31,13 +31,12 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
         int left = q - p;
         int right = r - left - 1;
         if(right >= k){
-             select(arr,q+1,right,k);
+            return select(arr, q + 1, right, k);
         }else if(right+1 == k){
             return q;
         }else{
-             select(arr,p,left,k-right-1);
+            return select(arr, p, left, k - right - 1);
         }
-        return -1;
     }
 
     private int randomizedPartition(T[] arr, int p, int r) {
