@@ -1,7 +1,6 @@
 package aak170230;
 
-import java.util.Iterator;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Implementation of Data Structure and Algorithms
@@ -20,7 +19,7 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
 
 
     public static void main(String[] args) {
-        int numOfElements = 100;
+        int numOfElements = 16000000;
 
         int choice = 0;
         if(args.length > 0){
