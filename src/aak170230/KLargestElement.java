@@ -12,14 +12,13 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
 
 
     public static void main(String[] args) {
-        Random random = new Random();
         KLargestElement<Integer> kLargestElement = new KLargestElement<>();
-        Integer[] integers = new Integer[100];
+        Integer[] integers = new Integer[16000000];
         for (int i = 0; i < integers.length ; i++) {
             integers[i] = i;
 
         }
-        kLargestElement.select(integers, 100);
+        kLargestElement.select(integers, integers.length / 2);
 
     }
 
@@ -42,9 +41,9 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
 
     private int randomizedPartition(T[] arr, int p, int r) {
         Random random = new Random();
-        //int i = random.nextInt(r+1);
-        //swap(arr,i,r);
-        int i = p - 1;
+        int i = p + random.nextInt(r - p + 1);
+        swap(arr, i, r);
+        i = p - 1;
         T x = arr[r];
         for (int j = p; j <r ; j++) {
             if(arr[j].compareTo(x) <= 0){
