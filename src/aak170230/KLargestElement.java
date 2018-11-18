@@ -3,16 +3,16 @@ package aak170230;
 import java.util.*;
 
 /**
- * Implementation of Data Structure and Algorithms
- * Created by aak170230 Ameya Kasar on 11/15/2018.
+ * Implementation of Data Structure and Algorithms CS-5V81
+ * Created by Ameya Kasar and Vikram Gopali on 11/15/2018.
  **/
-public class KLargestElement<T extends Comparable<? super T>> implements Iterable<T> {
+public class KLargestElement<T extends Comparable<? super T>> {
     int THRESHOLD;
     public static Random random;
     public static int trials;
 
     public KLargestElement(){
-        this.THRESHOLD = 13;
+        this.THRESHOLD = 99;
         random = new Random();
         trials = 25;
     }
@@ -45,14 +45,14 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
             case 0:
                 for(int t=0;t<trials;t++){
                     Shuffle.shuffle(integers);
-//                    System.out.println(kLargestElement.select(integers,k));
+                    //System.out.println(kLargestElement.select(integers,k));
                     kLargestElement.select(integers,k);
                 }
                 break;
             case 1:
                 for(int t=0;t<trials;t++){
                     Shuffle.shuffle(integers);
-//                    System.out.println(kLargestElement.pQueue(list.iterator(),k));
+                    //System.out.println(kLargestElement.pQueue(list.iterator(),k));
                     kLargestElement.pQueue(list.iterator(),k);
                 }
                 break;
@@ -63,29 +63,59 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
         System.out.println("Choice: " + choice + "\n" + timer);
     }
 
-    public T pQueue(Iterator<T> stream,int k){
+    /**
+     * Returns the value of the Kth largest element in the array using Binary Heap
+     *
+     * @param stream of the input data
+     * @param k      the value of the largest item needed
+     * @return value of the Kth largest element in the array
+     */
+    public T pQueue(Iterator<T> stream, int k){
         BinaryHeap bh = new BinaryHeap();
-        return (T) bh.kthLargest(stream,k);
+        return (T) bh.kthLargest(stream, k);
 
     }
 
-    public T select(T[]arr,int k){
-        return arr[select(arr,0,arr.length,k)];
+    /**
+     * Returns the value of the Kth largest element in the array using select algorithm
+     * @param arr on which Kth largest element is needed
+     * @param k the value of the largest item needed
+     * @return value of the Kth largest element in the array
+     */
+    public T select(T[]arr, int k){
+        return arr[select(arr,0,arr.length, k)];
     }
 
+    /**
+     * Utility method that implements the select algorithm using partionting of elements
+     * @return index of kth largest element
+     */
     private int select(T[] arr, int p, int r, int k) {
-        int q = randomizedPartition(arr,p,p+r-1);
-        int left = q - p;
-        int right = r - left - 1;
-        if(right >= k){
-            return select(arr, q + 1, right, k);
-        }else if(right+1 == k){
-            return q;
-        }else{
-            return select(arr, p, left, k - right - 1);
+        if (r <= THRESHOLD) {
+            insertionSortHelper(arr, p, p + r - 1);
+            return p + r - k;
+        } else {
+            int q = randomizedPartition(arr, p, p + r - 1);
+            int left = q - p;
+            int right = r - left - 1;
+            if (right >= k) {
+                return select(arr, q + 1, right, k);
+            } else if (right + 1 == k) {
+                return q;
+            } else {
+                return select(arr, p, left, k - right - 1);
+            }
         }
     }
 
+    /**
+     * Partitions the array on by randomly chosing a pivot element such that, all elements to the left of it are <= it and
+     * all elements to its right are greater that it
+     * @param arr on which partitioning takes place
+     * @param p the start index for partitioning
+     * @param r the end index for partitioning
+     * @return the index on which partitioning is performed
+     */
     private int randomizedPartition(T[] arr, int p, int r) {
         Random random = new Random();
         int i = p + random.nextInt(r - p + 1);
@@ -99,18 +129,39 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
             }
         }
         swap(arr,i+1,r);
-        return i+1;
+        return i + 1;
     }
 
+    /**
+     * Utility method that helps to swap elements at 2 indices in an array
+     * @param arr on which swapping is to performed
+     * @param i first index for swapping
+     * @param r second index for swapping
+     */
     private void swap(T[] arr, int i, int r) {
         T temp = arr[i];
         arr[i] = arr[r];
         arr[r] = temp;
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        return null;
+    /**
+     * Helper method which sorts the array between the 2 given indices
+     *
+     * @param arr to be sorted
+     * @param p   starting index of the array
+     * @param r   ending index of the array
+     */
+
+    private void insertionSortHelper(T[] arr, int p, int r) {
+        for (int i = p + 1; i <= r; i++) {
+            T key = arr[i];
+            int j = i - 1;
+            while (j >= p && arr[j].compareTo(key) > 0) {
+                arr[j + 1] = arr[j];
+                j = j - 1;
+            }
+            arr[j + 1] = key;
+        }
     }
 
     public class BinaryHeap<T extends Comparable<? super T>> {
@@ -248,12 +299,10 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
             return this.size;
         }
 
-// end of functions for team project
 
 
 
 
-// start of optional problem: heap sort (Q2)
 
         /** Create a heap.  Precondition: none.
          *  Implement this ifsolving optional problem
@@ -276,26 +325,14 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
            max heap ==> ascending order
            Implement this for optional problem
          */
-        public <T extends Comparable<? super T>> void heapSort(T[] arr, Comparator<T> c) { /* to be implemented */
+        public <T extends Comparable<? super T>> void heapSort(T[] arr, Comparator<T> c) {
         }
 
         // Sort array using natural ordering
         public <T extends Comparable<? super T>> void heapSort(T[] arr) {
             heapSort(arr, (T a, T b) -> a.compareTo(b));
         }
-// end of optional problem: heap sort (Q2)
 
-
-
-// start of optional problem: kth largest element (Q3)
-
-        public void replace(T x) {
-	/* TO DO.  Replaces root of binary heap by x if x has higher priority
-	     (smaller) than root, and restore heap order.  Otherwise do nothing.
-	   This operation is used in finding largest k elements in a stream.
-	   Implement this if solving optional problem.
-	 */
-        }
 
         /** Return the kth largest element of stream using custom comparator.
          *  Assume that k is small enough to fit in memory, but the stream is arbitrarily large.
@@ -330,7 +367,7 @@ public class KLargestElement<T extends Comparable<? super T>> implements Iterabl
         public <T extends Comparable<? super T>> T kthLargest(Iterator<T> stream, int k) {
             return kthLargest(stream, k, (T a, T b) -> a.compareTo(b));
         }
-// end of optional problem: kth largest element (Q3)
+
 
     }
 
