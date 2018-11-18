@@ -1,4 +1,4 @@
-package aak170230;
+package sp11.src.aak170230;
 
 import java.util.*;
 
@@ -14,7 +14,7 @@ public class KLargestElement<T extends Comparable<? super T>> {
     public KLargestElement(){
         this.THRESHOLD = 99;
         random = new Random();
-        trials = 25;
+        trials = 1;
     }
 
 
@@ -29,9 +29,9 @@ public class KLargestElement<T extends Comparable<? super T>> {
             choice = Integer.parseInt(args[1]);
         }
 
-        if(args.length > 2){
-            trials = Integer.parseInt(args[2]);
-        }
+//        if(args.length > 2){
+//            trials = Integer.parseInt(args[2]);
+//        }
         int k = numOfElements/2;
 
         Integer[] integers = new Integer[numOfElements];
